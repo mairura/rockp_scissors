@@ -23,14 +23,19 @@ export const main = Reach.App(() => {
     Alice.publish(wager, handAlice).pay(wager);
     commit();
 
+    unknowable(Bob, Alice(handAlice));
+
     Bob.only(() => {  
         interact.acceptWager(wager);
         const handBob = declassify(interact.getHand());
+        // (handAlice + 1) % 3;-Bob wins each time, doesn't check for Alice
     });
     Bob.publish(handBob).pay(wager);
 
     const outcome = (handAlice + (4 - handBob)) % 3;
-    const [forAlice, forBob] = outcome == 2 ? [ 2, 0] : outcome == 0 ? [ 0, 2] : /* tie */ [ 1, 1];
+    // require(handBob == (handAlice + 1) % 3);
+    // assert(outcome == 0);
+    const [forAlice, forBob] = outcome == 2 ? [ 1, 0] : outcome == 0 ? [ 0, 2] : /* tie */ [ 1, 1];
     transfer(forAlice * wager).to(Alice);
     transfer(forBob   * wager).to(Bob);
     commit();
